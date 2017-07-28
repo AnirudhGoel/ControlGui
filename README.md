@@ -105,10 +105,9 @@ Replace *&lt;tags&gt;* with corresponding data:
 
 ## Generating the VAPID keys
 You can generate a set of Private and Public VAPID keys using any of the two methods mentioned below-
-  1. By installing 'web-push' globally and generating keys directly in the terminal.
-     ```
-     npm install -g web-push
-     web-push generate-vapid-keys
+  1. By using 'web-push' package from the terminal.
+     ```bash
+     ./node_modules/web-push/src/cli.js generate-vapid-keys
      ```
   2. By going to [Google CodeLab](https://web-push-codelab.appspot.com) (use Chrome or Mozilla, not Safari).
 
