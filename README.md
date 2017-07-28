@@ -33,12 +33,12 @@ The goal of Control GUI Prototype is to identify library and framework sets and 
     ```sql
     CREATE TABLE `subscriptions` (
       `sub_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-      `endpoint` varchar(300) NOT NULL DEFAULT '',
-      `auth_key` varchar(200) NOT NULL DEFAULT '',
-      `p256dh_key` varchar(200) NOT NULL DEFAULT '',
+      `endpoint` varchar(300) NOT NULL,
+      `auth_key` varchar(200) NOT NULL,
+      `p256dh_key` varchar(200) NOT NULL,
       `preferences` varchar(20) NOT NULL DEFAULT '000',
       PRIMARY KEY (`sub_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
     ```
 
 
