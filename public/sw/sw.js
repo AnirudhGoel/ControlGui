@@ -8,7 +8,7 @@ self.addEventListener('push', function(event) {
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
   console.log(event);
 
-  const title = 'Push Codelab';
+  // const title = `${event.data.}`;
   const options = {
     body: `${event.data.text()}`,
     icon: 'images/icon.png',
