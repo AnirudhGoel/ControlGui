@@ -72,7 +72,7 @@ function sendNotif() {
 
         if (pref[type - 1] == 1) {
           promiseChain = promiseChain.then(() => {
-            return triggerPushMsg(subscription, dataToSend);
+            return triggerPushMsg(subscription, JSON.stringify(dataToSend));
           });
         }
       }
