@@ -25,9 +25,22 @@ The goal of Control GUI Prototype is to identify library and framework sets and 
      git clone https://github.com/AliceO2Group/ControlGui && cd ControlGui
      ```
 3. Install dependencies
+    ```
+    npm install
      ```
-     npm install
-     ```
+4.  MySQL setup instructions
+  Run this command in your MySQL command line-
+    ```sql
+    CREATE TABLE `subscriptions` (
+      `sub_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+      `endpoint` varchar(300) NOT NULL DEFAULT '',
+      `auth_key` varchar(200) NOT NULL DEFAULT '',
+      `p256dh_key` varchar(200) NOT NULL DEFAULT '',
+      `preferences` varchar(20) NOT NULL DEFAULT '000',
+      PRIMARY KEY (`sub_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    ```
+
 
 ### ZeroMQ custom installation
 If you've installed ZeroMQ under custom path, npm install will fail with : *fatal error: zmq.h: No such file or directory*
