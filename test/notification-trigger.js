@@ -50,40 +50,6 @@ webpush.setVapidDetails(
 );
 
 /**
- * Fetches subscriptions from db then verifies them and sends notifications.
- * @return {promise}
- */
-function sendNotif() {
-  const type = argv.type;
-  const dataToSend = {
-    "title": argv.title,
-    "message": argv.message
-  };
-
-  return getSubscriptions()
-    .then(function(subscriptions) {
-      let promiseChain = Promise.resolve();
-
-      for (let i = 0; i < subscriptions.length; i++) {
-        let subscription = subscriptions[i];
-        subscription = formatSubscription(subscription);
-
-        let pref = subscription.preferences.split('');
-
-        if (pref[type - 1] == 1) {
-          promiseChain = promiseChain.then(() => {
-            return triggerPushMsg(subscription, JSON.stringify(dataToSend));
-          });
-        }
-      }
-    })
-    .catch(function(err) {
-      throw new Error(err);
-    });
-}
-sendNotif();
-
-/**
  * Sends push notifications to subscribed users
  * @param {object} subscription - Subscription object with user endpoint
  * @param {string} dataToSend - String message to be sent in notification
@@ -153,3 +119,42 @@ function formatSubscription(sub) {
   };
   return formattedSubscription;
 }
+
+/**
+ * Fetches subscriptions from db then verifies them and sends notifications.
+ * @return {promise}
+ */
+function sendNotif() {
+  const type = argv.type;
+  const dataToSend = {
+    "title": argv.title,
+    "message": argv.message
+  };
+
+  return getSubscriptions()
+    .then(function(subscriptions) {
+      let promiseChain = Promise.resolve();
+
+      for (let i = 0; i < subscriptions.length; i++) {
+        let subscription = subscriptions[i];
+        subscription = formatSubscription(subscription);
+
+        let pref = subscription.preferences.split('');
+
+        if (pref[type - 1] == 1) {
+          promiseChain = promiseChain.then(() => {
+            return triggerPushMsg(subscription, JSON.stringify(dataToSend));
+          });
+        }
+      }
+
+      return promiseChain;
+    })
+    .then(() => {
+      process.exit(0);
+    })
+    .catch(function(err) {
+      throw err;
+    });
+}
+sendNotif();
