@@ -12,7 +12,7 @@ const con = mysql.createConnection({
 
 /*
 
-To run this file:
+To run this file, use command:
 
 node test/notification-trigger.js --type <type> --title "<title>" --message "<message>"
 
@@ -127,8 +127,8 @@ function formatSubscription(sub) {
 function sendNotif() {
   const type = argv.type;
   const dataToSend = {
-    "title": argv.title,
-    "message": argv.message
+    'title': argv.title,
+    'message': argv.message
   };
 
   return getSubscriptions()
@@ -151,7 +151,7 @@ function sendNotif() {
       return promiseChain;
     })
     .then(() => {
-      process.exit(0);
+      con.end();
     })
     .catch(function(err) {
       throw err;
