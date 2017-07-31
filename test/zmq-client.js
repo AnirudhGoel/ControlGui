@@ -8,7 +8,7 @@ sock.bindSync('tcp://127.0.0.1:3000');
 setInterval(function() {
   // console.log('Sending a dummy notification');
   sendDummy();
-}, 10000);
+}, 7000);
 
 
 /**
