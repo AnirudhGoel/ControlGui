@@ -124,15 +124,6 @@ class WebSocket extends EventEmitter {
       }
     }.bind(this));
 
-
-    // Subscriber for ZeroMQ
-    let zmq = require('zeromq');
-    let sock = zmq.socket('sub');
-
-    sock.connect('tcp://127.0.0.1:3000');
-    sock.subscribe('Notifications');
-    log.debug('Subscriber connected to port 3000');
-
     client.on('close', (client) => this.onclose(client));
   }
 
