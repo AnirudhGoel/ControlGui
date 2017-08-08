@@ -82,6 +82,12 @@ class HttpServer {
     this.app.use(bodyParser.json());
 
     this.app.get('/', (req, res) => this.oAuthAuthorize(res));
+    this.app.post('/v1/pushPackages/web.ch.cern.anirudh', (req, res) => this.safariPermission(res));
+    this.app.post('/v1/devices/:deviceToken/registrations/:websitePushID', (req, res) => this.safariSubscribe(req, res));
+    this.app.delete('/v1/devices/:deviceToken/registrations/:websitePushID', (req, res) => this.safariUnsubscribe(req, res));
+    this.app.post('/v1/log', (req, res) => this.log(req));
+
+
     this.app.use(express.static('public'));
     this.app.use('/jquery', express.static(path.join(__dirname, '../node_modules/jquery/dist')));
     this.app.use('/jquery-ui', express.static(
@@ -97,6 +103,49 @@ class HttpServer {
     this.router.post('/update-preferences', this.updatePref);
     this.router.post('/get-preferences', this.getPref);
     this.router.post('/delete-subscription', this.deleteSubscription);
+  }
+
+
+
+  safariPermission(res) {
+    console.log("Here");
+    console.log(path.resolve('./pushpackage.zip'));
+    res.sendFile(path.resolve('./pushpackage.zip'));
+  }
+
+  safariSubscribe(req, res) {
+    console.log(req.params);
+
+    db.insertSubscriptionSafari(req.params.deviceToken)
+      .then(function() {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({data: {success: true}}));
+      })
+      .catch(function(err) {
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+          error: {
+            id: 'unable-to-save-subscription',
+            message: 'The Safari subscription was received but we were unable to save it to our database.'
+          }
+        }));
+      });
+  }
+
+  safariUnsubscribe(req, res) {
+    db.deleteSubscriptionSafari(req.params.deviceToken)
+      .then(function() {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({data: {success: true}}));
+      })
+      .catch(function(err) {
+        res.send(err);
+      });
+  }
+
+  log(req) {
+    console.log(req.body);
   }
 
   /**

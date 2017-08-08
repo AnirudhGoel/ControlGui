@@ -135,6 +135,14 @@ $(function() {
 </form>
 <br><br>
 <div class="result"></div>
+
+
+<br><br><hr><br><br>
+<button id="subscribe">Subscribe</button>
+
+
+<script src="apns.js"></script>
+
 </body>
 </html>
 
