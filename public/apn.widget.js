@@ -1,8 +1,7 @@
 var pushId = "web.ch.cern.anirudh";
+var safariSubButton = $("#safariSubscribe");
 
-console.log($("#subscribe"));
-
-$("#subscribe").on("click", function() {
+safariSubButton.on("click", function() {
     console.log("Here");
     pushNotification();
 });
@@ -37,5 +36,7 @@ var checkRemotePermission = function (permissionData) {
 
     else if (permissionData.permission === 'granted') {
         console.log("The user said yes, with token: "+ permissionData.deviceToken);
+
+        safariSubButton.text("Disable Push Messaging");
     }
 };

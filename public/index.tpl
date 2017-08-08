@@ -38,6 +38,7 @@ textarea {
 <script src="ws.widget.js"></script>
 <script src="padlock.widget.js"></script>
 <script src="socketnotif.widget.js"></script>
+<script src="preferencesSection.widget.js"></script>
 <script src="pushnotif.widget.js"></script>
 <script>
 $(function() {
@@ -56,13 +57,19 @@ $(function() {
 
   var notification = $.o2.socketNotification();
 
+  var preferencesSection = $.o2.preferencesSection({
+    preferencesForm: $('.preferences-form'),
+    preferenceOptionsSection: $('#preferenceOptions'),
+    preferenceOptions: ['Type A', 'Type B', 'Type C'],
+  });
+
   var pushNotif = $.o2.pushNotification({
     applicationServerPublicKey: '{{applicationServerPublicKey}}',
     pushButton: $('.js-push-btn'),
-    preferencesForm: $('.preferences-form'),
-    preferenceOptionsSection: $('#preferenceOptions'),
     result: $('.result'),
-    jwtToken: '{{token}}'
+    jwtToken: '{{token}}',
+    preferencesForm: $('.preferences-form'),
+    preferenceOptionsSection: $('#preferenceOptions')
   });
 
   $('#ws').bind('websocketlock-get', function(evt, data) {
@@ -126,6 +133,9 @@ $(function() {
   <button disabled class="js-push-btn ui-button ui-corner-all ui-widget">
     Enable Push Messaging
   </button>
+  <button id="safariSubscribe" class="ui-button ui-corner-all ui-widget">
+    Enable Push Messaging
+  </button>
 </p>
 <br>
 <form class="is-invisible preferences-form">
@@ -135,14 +145,6 @@ $(function() {
 </form>
 <br><br>
 <div class="result"></div>
-
-
-<br><br><hr><br><br>
-<button id="subscribe">Subscribe</button>
-
-
-<script src="apns.js"></script>
-
+<script src="apn.widget.js"></script>
 </body>
 </html>
-

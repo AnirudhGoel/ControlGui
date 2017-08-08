@@ -140,6 +140,11 @@ class Database {
       throw Error('Invalid Device Token.');
     }
 
+<<<<<<< HEAD
+=======
+  // Save Safari subscriotion to MySQL database
+  insertSubscriptionSafari: function(deviceToken) {
+>>>>>>> syncing with mac
     let sql = 'INSERT INTO subscriptions (deviceToken) VALUES (?)';
 
     return new Promise(function(resolve, reject) {

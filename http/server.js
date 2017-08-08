@@ -108,14 +108,11 @@ class HttpServer {
 
 
   safariPermission(res) {
-    console.log("Here");
     console.log(path.resolve('./pushpackage.zip'));
     res.sendFile(path.resolve('./pushpackage.zip'));
   }
 
   safariSubscribe(req, res) {
-    console.log(req.params);
-
     db.insertSubscriptionSafari(req.params.deviceToken)
       .then(function() {
         res.setHeader('Content-Type', 'application/json');
