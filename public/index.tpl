@@ -38,8 +38,8 @@ textarea {
 <script src="ws.widget.js"></script>
 <script src="padlock.widget.js"></script>
 <script src="socketnotif.widget.js"></script>
-<script src="preferencesSection.widget.js"></script>
 <script src="pushnotif.widget.js"></script>
+<script src="apn.widget.js"></script>
 <script>
 $(function() {
   /// instance of websocket widget
@@ -57,15 +57,17 @@ $(function() {
 
   var notification = $.o2.socketNotification();
 
-  var preferencesSection = $.o2.preferencesSection({
-    preferencesForm: $('.preferences-form'),
-    preferenceOptionsSection: $('#preferenceOptions'),
-    preferenceOptions: ['Type A', 'Type B', 'Type C'],
-  });
-
   var pushNotif = $.o2.pushNotification({
     applicationServerPublicKey: '{{applicationServerPublicKey}}',
     pushButton: $('.js-push-btn'),
+    result: $('.result'),
+    jwtToken: '{{token}}',
+    preferencesForm: $('.preferences-form'),
+    preferenceOptionsSection: $('#preferenceOptions')
+  });
+
+  var apn = $.o2.apn({
+    pushButton: $('#safariSubscribe'),
     result: $('.result'),
     jwtToken: '{{token}}',
     preferencesForm: $('.preferences-form'),
@@ -133,7 +135,7 @@ $(function() {
   <button disabled class="js-push-btn ui-button ui-corner-all ui-widget">
     Enable Push Messaging
   </button>
-  <button id="safariSubscribe" class="ui-button ui-corner-all ui-widget">
+  <button disabled id="safariSubscribe" class="ui-button ui-corner-all ui-widget">
     Enable Push Messaging
   </button>
 </p>
