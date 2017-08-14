@@ -88,6 +88,8 @@ $.widget('o2.apn', {
   _create: function() {
     if ('safari' in window && 'pushNotification' in window.safari) {
       // console.log('APNs is supported');
+      document.createElement(this.options);
+      // console.log(window);
       this.initialiseUI();
 
       this.options.preferencesForm.on('submit', (event) => {
@@ -109,18 +111,19 @@ $.widget('o2.apn', {
   // and showing or hiding the notification preferences section.
   initialiseUI: function() {
     console.log(this.options.pushButton);
+    let permissionData = window.safari.pushNotification.permission(this.options.pushId);
     this.options.pushButton.on('click', () => {
       this.options.result.html('');
       this.options.pushButton.prop('disabled', true);
       if (this.options.isSubscribed) {
         this.unsubscribeUser();
       } else {
-        this.subscribeUser();
+        this.subscribeUser(permissionData);
       }
     });
 
 
-    let permissionData = window.safari.pushNotification.permission(this.options.pushId);
+
 
     if (permissionData.permission === 'granted') {
       this.options.isSubscribed = true;
@@ -153,27 +156,28 @@ $.widget('o2.apn', {
     this.options.pushButton.prop('disabled', false);
   },
 
-  subscribeUser: function() {
-    let permissionData = window.safari.pushNotification.permission(this.options.pushId);
+  subscribeUser: function(permissionData) {
     if (permissionData.permission === 'default') {
-        console.log("The user is making a decision");
-        window.safari.pushNotification.requestPermission(
-            'https://pcald31.cern.ch',
-            this.options.pushId,
-            {}
-        );
+      console.log("The user is making a decision");
+      window.safari.pushNotification.requestPermission(
+          'https://pcald31.cern.ch',
+          this.options.pushId,
+          {},
+          this.subscribeUser
+      );
     }
     else if (permissionData.permission === 'denied') {
-        this.updateBtn();
-        console.dir("Permission Denied.");
+      this.updateBtn();
+      console.dir("Permission Denied.");
     }
 
     else if (permissionData.permission === 'granted') {
-        console.log("The user said yes, with token: "+ permissionData.deviceToken);
+      console.log(this.document);
+      console.log("The user said yes, with token: " + permissionData.deviceToken);
 
-        this.options.isSubscribed = true;
+      // this.options.isSubscribed = true;
 
-        this.updateBtn();
+      // this.updateBtn();
     }
   },
 });
