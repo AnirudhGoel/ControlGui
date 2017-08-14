@@ -179,6 +179,40 @@ class Database {
         resolve(true);
       });
     });
+  },
+
+  // Module for fetching user notification preferences from MySQL database for APNs
+  getPreferencesSafari: function(data) {
+    let deviceToken = data.deviceToken;
+
+    let sql = 'SELECT preferences FROM subscriptions WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        resolve(result);
+      });
+    });
+  },
+
+  // Module for updating user notification preferences in MySQL database for APNs
+  updatePreferencesSafari: function(data) {
+    let deviceToken = data.deviceToken;
+    let preferences = data.preferences;
+
+    let sql = 'UPDATE subscriptions SET preferences = ? WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [preferences, deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        log.debug('Preferences Updated successfully.');
+        resolve(true);
+      });
+    });
   }
 
   /**

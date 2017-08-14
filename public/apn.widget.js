@@ -88,8 +88,6 @@ $.widget('o2.apn', {
   _create: function() {
     if ('safari' in window && 'pushNotification' in window.safari) {
       // console.log('APNs is supported');
-      document.createElement(this.options);
-      // console.log(window);
       this.initialiseUI();
 
       this.options.preferencesForm.on('submit', (event) => {
@@ -116,7 +114,7 @@ $.widget('o2.apn', {
       this.options.result.html('');
       this.options.pushButton.prop('disabled', true);
       if (this.options.isSubscribed) {
-        this.unsubscribeUser();
+        this.unsubscribeUser(permissionData);
       } else {
         this.subscribeUser(permissionData);
       }
@@ -128,7 +126,7 @@ $.widget('o2.apn', {
     if (permissionData.permission === 'granted') {
       this.options.isSubscribed = true;
       this.options.preferencesForm['0'].classList.remove('is-invisible');
-      // this.getPreferences();
+      this.getPreferences(permissionData.deviceToken);
     }
 
     this.updateBtn();
@@ -163,7 +161,7 @@ $.widget('o2.apn', {
           'https://pcald31.cern.ch',
           this.options.pushId,
           {},
-          this.subscribeUser
+          (permissionData) => { this.subscribeUser(permissionData) }
       );
     }
     else if (permissionData.permission === 'denied') {
@@ -172,12 +170,95 @@ $.widget('o2.apn', {
     }
 
     else if (permissionData.permission === 'granted') {
-      console.log(this.document);
       console.log("The user said yes, with token: " + permissionData.deviceToken);
 
-      // this.options.isSubscribed = true;
+      this.options.isSubscribed = true;
+      this.options.preferencesForm['0'].classList.remove('is-invisible');
+      this.getPreferences(permissionData.deviceToken);
 
-      // this.updateBtn();
+      this.updateBtn();
     }
   },
+
+  unsubscribeUser: function(permissionData) {
+    // window.safari.pushNotification.permission(this.options.pushId).permission = "denied";
+    console.log(window.safari.pushNotification.permission(this.options.pushId).permission);
+    // $.ajax({
+    //   url: 'v1/devices/' + permissionData.deviceToken + '/registrations/' + this.options.pushId,
+    //   type: 'DELETE',
+    //   success: function(data) {
+    //     console.log(data);
+    //   }
+    // });
+  },
+
+  getPreferences: function(deviceToken) {
+    let data = {
+      deviceToken: deviceToken
+    };
+
+    return fetch('/api/get-preferences-safari?token=' + this.options.jwtToken, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            let preferences = data[0].preferences.split('');
+
+            if (preferences.length == this.options.preferenceOptions.length) {
+              for (let i = 1; i <= preferences.length; i++) {
+                (preferences[i-1] == 1) ? ($('#type' + i).prop('checked', true))
+                  : ($('#type' + i).prop('checked', false));
+              }
+            } else {
+              throw new Error('Number of preferences on HTML page and Database don\'t match.'
+                + 'Please see the database structure.');
+            }
+          });
+      });
+  },
+
+  updateSubscriptionPreferences: function(event) {
+    event.preventDefault();
+
+    let permissionData = window.safari.pushNotification.permission(this.options.pushId);
+
+    if (permissionData.permission === 'granted') {
+      let data = {
+        deviceToken: permissionData.deviceToken,
+        preferences: this.compilePreferences()
+      };
+
+      return fetch('/api/update-preferences-safari?token=' + this.options.jwtToken, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Couldn\'t update preferences');
+          }
+          this.options.result.html('<h3>Preferences Updated.</h3>');
+          // console.log(response.body);
+        });
+    } else {
+      // console.log('Error updating preferences: No subscription');
+    }
+  },
+
+  compilePreferences: function() {
+    let preferences = '';
+
+    for (let i = 1; i <= this.options.preferenceOptions.length; i++) {
+      ($('#type' + i).prop('checked')) ? (preferences += 1) : (preferences += 0);
+    }
+
+    return preferences;
+  }
 });

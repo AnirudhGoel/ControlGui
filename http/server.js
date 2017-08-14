@@ -101,7 +101,9 @@ class HttpServer {
     this.router.use('/runs', this.runs);
     this.router.post('/save-subscription', this.saveSubscription);
     this.router.post('/update-preferences', this.updatePref);
+    this.router.post('/update-preferences-safari', this.updatePrefSafari);
     this.router.post('/get-preferences', this.getPref);
+    this.router.post('/get-preferences-safari', this.getPrefSafari);
     this.router.post('/delete-subscription', this.deleteSubscription);
   }
 
@@ -132,6 +134,28 @@ class HttpServer {
 
   safariUnsubscribe(req, res) {
     db.deleteSubscriptionSafari(req.params.deviceToken)
+      .then(function() {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({data: {success: true}}));
+      })
+      .catch(function(err) {
+        res.send(err);
+      });
+  }
+
+  getPrefSafari(req, res) {
+    db.getPreferencesSafari(req.body)
+      .then(function(preferences) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(preferences);
+      })
+      .catch(function(err) {
+        res.send(err);
+      });
+  }
+
+  updatePrefSafari(req, res) {
+    db.updatePreferencesSafari(req.body)
       .then(function() {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({data: {success: true}}));
