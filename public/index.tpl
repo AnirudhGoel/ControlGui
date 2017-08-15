@@ -147,6 +147,5 @@ $(function() {
 </form>
 <br><br>
 <div class="result"></div>
-<script src="apn.widget.js"></script>
 </body>
 </html>
