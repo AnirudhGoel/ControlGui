@@ -87,7 +87,7 @@ class HttpServer {
       (req, res) => this.safariSubscribe(req, res));
     this.app.delete('/v1/devices/:deviceToken/registrations/:websitePushID',
       (req, res) => this.safariUnsubscribe(req, res));
-    this.app.post('/v1/log', (req, res) => this.log(req));
+    this.app.post('/v1/log', (req, res) => log.debug(req.body));
 
 
     this.app.use(express.static('public'));
@@ -356,14 +356,6 @@ class HttpServer {
       .catch(function(err) {
         res.send(err);
       });
-  }
-
-  /**
-   * All log statements in APNS is passed to this function and it prints them.
-   * @param {object} req - request object
-   */
-  log(req) {
-    log.debug(req.body);
   }
 }
 module.exports = HttpServer;
