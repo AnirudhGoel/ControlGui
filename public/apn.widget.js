@@ -5,7 +5,7 @@ $.widget('o2.apn', {
     jwtToken: undefined,
     preferencesForm: undefined,
     preferenceOptionsSection: undefined,
-    pushId: "web.ch.cern.anirudh",
+    pushId: 'web.ch.cern.anirudh',
     preferenceOptions: ['Type A', 'Type B', 'Type C'],
     // Change these options and the default value of 'preferences' in DB to modify the preferences
     isSubscribed: false
@@ -34,7 +34,7 @@ $.widget('o2.apn', {
   // These UI updates include updating the button
   // and showing or hiding the notification preferences section.
   initialiseUI: function() {
-    console.log(this.options.pushButton);
+    // console.log(this.options.pushButton);
     let permissionData = window.safari.pushNotification.permission(this.options.pushId);
     this.options.pushButton.on('click', () => {
       this.options.result.html('');
@@ -84,20 +84,20 @@ $.widget('o2.apn', {
   */
   subscribeUser: function(permissionData) {
     if (permissionData.permission === 'default') {
-      console.log("The user is making a decision");
+      // console.log("The user is making a decision");
       window.safari.pushNotification.requestPermission(
-          'https://pcald31.cern.ch',
-          this.options.pushId,
-          {},
-          (permissionData) => { this.subscribeUser(permissionData) }
+        'https://pcald31.cern.ch',
+        this.options.pushId,
+        {},
+        (permissionData) => {
+          this.subscribeUser(permissionData);
+        }
       );
-    }
-    else if (permissionData.permission === 'denied') {
+    } else if (permissionData.permission === 'denied') {
       this.updateBtn();
-      console.dir("Permission Denied.");
-    }
-    else if (permissionData.permission === 'granted') {
-      console.log("The user said yes, with token: " + permissionData.deviceToken);
+      // console.log("Permission Denied.");
+    } else if (permissionData.permission === 'granted') {
+      // console.log("The user said yes, with token: " + permissionData.deviceToken);
 
       this.options.isSubscribed = true;
       this.options.preferencesForm['0'].classList.remove('is-invisible');
@@ -107,10 +107,11 @@ $.widget('o2.apn', {
     }
   },
 
-  // Currently incomplete. Find a method to remove notification permissions from Safari preferences, if possible.
+  // Currently incomplete. Find a method to remove notification 
+  // permissions from Safari preferences, if possible.
   unsubscribeUser: function(permissionData) {
     // window.safari.pushNotification.permission(this.options.pushId).permission = "denied";
-    console.log(window.safari.pushNotification.permission(this.options.pushId).permission);
+    // console.log(window.safari.pushNotification.permission(this.options.pushId).permission);
     // $.ajax({
     //   url: 'v1/devices/' + permissionData.deviceToken + '/registrations/' + this.options.pushId,
     //   type: 'DELETE',
@@ -120,7 +121,8 @@ $.widget('o2.apn', {
     // });
   },
 
-  // Gets current user preferences from the database and updates the preferences form according to them.
+  // Gets current user preferences from the database and
+  // updates the preferences form according to them.
   getPreferences: function(deviceToken) {
     let data = {
       deviceToken: deviceToken

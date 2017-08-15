@@ -211,7 +211,7 @@ $.widget('o2.pushNotification', {
         // console.log('Error unsubscribing', error);
       });
   },
-  
+
   updateSubscriptionPreferences: function(event) {
     event.preventDefault();
 
@@ -242,8 +242,9 @@ $.widget('o2.pushNotification', {
         }
       });
   },
-  
-  // Gets current user preferences from the database and updates the preferences form according to them.
+
+  // Gets current user preferences from the database and 
+  // updates the preferences form according to them.
   getPreferences: function() {
     this.options.swRegistration.pushManager.getSubscription()
       .then((subscription) => {
