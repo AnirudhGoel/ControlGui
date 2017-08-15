@@ -1,76 +1,3 @@
-// var 
-// var safariSubButton = $("#safariSubscribe");
-
-// safariSubButton.on("click", function() {
-//     console.log("Here");
-//     pushNotification();
-// });
-
-// var pushNotification = function () {
-//     console.log(window);
-
-//     if ('safari' in window && 'pushNotification' in window.safari) {
-//         var permissionData = window.safari.pushNotification.permission(pushId);
-//         console.log(permissionData);
-//         checkRemotePermission(permissionData);
-//     } else {
-//         alert("Push notifications not supported.");
-//     }
-// };
-
-// var checkRemotePermission = function (permissionData) {
-//     // "use strict";
-
-//     if (permissionData.permission === 'default') {
-//         console.log("The user is making a decision");
-//         window.safari.pushNotification.requestPermission(
-//             'https://pcald31.cern.ch',
-//             pushId,
-//             {},
-//             checkRemotePermission
-//         );
-//     }
-//     else if (permissionData.permission === 'denied') {
-//         console.dir(arguments);
-//     }
-
-//     else if (permissionData.permission === 'granted') {
-//         console.log("The user said yes, with token: "+ permissionData.deviceToken);
-
-//         safariSubButton.text("Disable Push Messaging");
-//     }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $.widget('o2.apn', {
   options: {
     pushButton: undefined,
@@ -81,8 +8,7 @@ $.widget('o2.apn', {
     pushId: "web.ch.cern.anirudh",
     preferenceOptions: ['Type A', 'Type B', 'Type C'],
     // Change these options and the default value of 'preferences' in DB to modify the preferences
-    isSubscribed: false,
-    swRegistration: null
+    isSubscribed: false
   },
 
   _create: function() {
@@ -120,9 +46,6 @@ $.widget('o2.apn', {
       }
     });
 
-
-
-
     if (permissionData.permission === 'granted') {
       this.options.isSubscribed = true;
       this.options.preferencesForm['0'].classList.remove('is-invisible');
@@ -154,6 +77,11 @@ $.widget('o2.apn', {
     this.options.pushButton.prop('disabled', false);
   },
 
+  /*
+  Prompts the user to 'Allow' or 'Deny' receiving notifications.
+  After the user makes a decision, the same function is again run as a callback
+  and the preferences section and push button are updated according to user's choice.
+  */
   subscribeUser: function(permissionData) {
     if (permissionData.permission === 'default') {
       console.log("The user is making a decision");
@@ -168,7 +96,6 @@ $.widget('o2.apn', {
       this.updateBtn();
       console.dir("Permission Denied.");
     }
-
     else if (permissionData.permission === 'granted') {
       console.log("The user said yes, with token: " + permissionData.deviceToken);
 
@@ -180,6 +107,7 @@ $.widget('o2.apn', {
     }
   },
 
+  // Currently incomplete. Find a method to remove notification permissions from Safari preferences, if possible.
   unsubscribeUser: function(permissionData) {
     // window.safari.pushNotification.permission(this.options.pushId).permission = "denied";
     console.log(window.safari.pushNotification.permission(this.options.pushId).permission);
@@ -192,6 +120,7 @@ $.widget('o2.apn', {
     // });
   },
 
+  // Gets current user preferences from the database and updates the preferences form according to them.
   getPreferences: function(deviceToken) {
     let data = {
       deviceToken: deviceToken
