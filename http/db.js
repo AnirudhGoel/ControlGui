@@ -9,17 +9,29 @@ const con = mysql.createConnection({
   database: config.pushNotifications.database
 });
 
-con.connect(function(err) {
-  if (err) {
-    throw err;
+/**
+ * Single Database Module containing all Database related functions
+ * @author Anirudh Goel <anirudh.goel@cern.ch>
+ */
+class Database {
+  /**
+   * Establishes connections with MySQL Database
+   */
+  constructor() {
+    con.connect(function(err) {
+      if (err) {
+        throw err;
+      }
+      log.debug('Connected to the database');
+    });
   }
-  log.debug('Connected to the database');
-});
 
-
-module.exports = {
-  // Module for saving subscriotion to MySQL database
-  insertSubscription: function(sub) {
+  /**
+   * Saves 'web-push' subscription object to Database
+   * @param {object} sub - Subscription Object
+   * @return {Promise} Promise
+   */
+  insertSubscription(sub) {
     let endpoint = sub.endpoint;
     let authKey = sub.keys.auth;
     let p256dhKey = sub.keys.p256dh;
@@ -35,10 +47,14 @@ module.exports = {
         resolve(true);
       });
     });
-  },
+  }
 
-  // Module for deleting subscriotion from MySQL database
-  deleteSubscription: function(endpoint) {
+  /**
+   * Module for deleting subscriotion from MySQL database
+   * @param {string} endpoint - Subscription Endpoint
+   * @return {Promise} Promise
+   */
+  deleteSubscription(endpoint) {
     let sql = 'DELETE FROM subscriptions WHERE endpoint = ?';
 
     return new Promise(function(resolve, reject) {
@@ -50,10 +66,14 @@ module.exports = {
         resolve(true);
       });
     });
-  },
+  }
 
-  // Module for updating user notification preferences in MySQL database
-  updatePreferences: function(data) {
+  /**
+   * Module for updating user notification preferences in MySQL database
+   * @param {object} data - Preferences Object
+   * @return {Promise} Promise
+   */
+  updatePreferences(data) {
     let endpoint = data.endpoint;
     let preferences = data.preferences;
 
@@ -68,10 +88,14 @@ module.exports = {
         resolve(true);
       });
     });
-  },
+  }
 
-  // Module for fetching user notification preferences from MySQL database
-  getPreferences: function(data) {
+  /**
+   * Module for fetching user notification preferences from MySQL database
+   * @param {object} data - Object containing Endpoint
+   * @return {Promise} Promise
+   */
+  getPreferences(data) {
     let endpoint = data.endpoint;
 
     let sql = 'SELECT preferences FROM subscriptions WHERE endpoint = ?';
@@ -85,4 +109,85 @@ module.exports = {
       });
     });
   }
-};
+
+  /**
+   * Save Safari subscription to MySQL database
+   * @param {string} deviceToken - Unique Device Identifier Token
+   * @return {Promise} Promise
+   */
+  insertSubscriptionSafari(deviceToken) {
+    let sql = 'INSERT INTO subscriptions (deviceToken) VALUES (?)';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        log.debug('Safari Subscription saved successfully in database.');
+        resolve(true);
+      });
+    });
+  }
+
+  /**
+   * Delete Safari subscriotion from MySQL database
+   * @param {string} deviceToken - Unique Device Identifier Token
+   * @return {Promise} Promise
+   */
+  deleteSubscriptionSafari(deviceToken) {
+    let sql = 'DELETE FROM subscriptions WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        log.debug('Deleted Safari subscriptions successfully from database. ');
+        resolve(true);
+      });
+    });
+  }
+
+  /**
+   * Module for fetching user notification preferences from MySQL database for APNs
+   * @param {object} data - Object containing Device Token
+   * @return {Promise} Promise
+   */
+  getPreferencesSafari(data) {
+    let deviceToken = data.deviceToken;
+
+    let sql = 'SELECT preferences FROM subscriptions WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        resolve(result);
+      });
+    });
+  }
+
+  /**
+   * Module for updating user notification preferences in MySQL database for APNs
+   * @param {object} data - Object containing Device Token and preferences
+   * @return {Promise} Promise
+   */
+  updatePreferencesSafari(data) {
+    let deviceToken = data.deviceToken;
+    let preferences = data.preferences;
+
+    let sql = 'UPDATE subscriptions SET preferences = ? WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [preferences, deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        log.debug('Preferences Updated successfully.');
+        resolve(true);
+      });
+    });
+  }
+}
+module.exports = Database;

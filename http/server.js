@@ -13,7 +13,9 @@ const webpush = require('web-push');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const db = require('./db.js');
+const Database = require('./db.js');
+
+const db = new Database();
 
 app.use(express.static(path.join(__dirname, '')));
 
