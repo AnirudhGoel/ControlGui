@@ -36,6 +36,11 @@ class Database {
     let authKey = sub.keys.auth;
     let p256dhKey = sub.keys.p256dh;
 
+    if ((endpoint == undefined || '') || (authKey == undefined || '')
+      || (p256dhKey == undefined || '')) {
+      throw Error("Invalid subscription object.");
+    }
+
     let sql = 'INSERT INTO subscriptions (endpoint, auth_key, p256dh_key) VALUES (?, ?, ?)';
 
     return new Promise(function(resolve, reject) {
