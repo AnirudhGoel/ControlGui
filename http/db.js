@@ -10,7 +10,7 @@ const con = mysql.createConnection({
 });
 
 /**
- * Single Database Module containing all Database related functions
+ * Database Module containing all Database related functions
  * @author Anirudh Goel <anirudh.goel@cern.ch>
  */
 class Database {
