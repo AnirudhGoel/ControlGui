@@ -62,6 +62,10 @@ class Database {
   deleteSubscription(endpoint) {
     let sql = 'DELETE FROM subscriptions WHERE endpoint = ?';
 
+    if (endpoint == undefined || '') {
+      throw Error("Invalid endpoint.");
+    }
+
     return new Promise(function(resolve, reject) {
       con.query(sql, [endpoint], function(err, result) {
         if (err) {
@@ -82,12 +86,19 @@ class Database {
     let endpoint = data.endpoint;
     let preferences = data.preferences;
 
+    if ((endpoint == undefined || '') || (preferences == undefined || '')) {
+      throw Error("Invalid endpoint or preferences.");
+    }
+
     let sql = 'UPDATE subscriptions SET preferences = ? WHERE endpoint = ?';
 
     return new Promise(function(resolve, reject) {
       con.query(sql, [preferences, endpoint], function(err, result) {
         if (err) {
           throw reject(err);
+        }
+        if (result.affectedRows == 0) {
+          reject('No subscription exists with endpoint: ' + endpoint);
         }
         log.debug('Preferences Updated successfully.');
         resolve(true);
@@ -102,6 +113,10 @@ class Database {
    */
   getPreferences(data) {
     let endpoint = data.endpoint;
+
+    if (endpoint == undefined || '') {
+      throw Error("Invalid endpoint.");
+    }
 
     let sql = 'SELECT preferences FROM subscriptions WHERE endpoint = ?';
 
@@ -121,6 +136,10 @@ class Database {
    * @return {Promise} Promise
    */
   insertSubscriptionSafari(deviceToken) {
+    if (deviceToken == undefined || '') {
+      throw Error('Invalid Device Token.');
+    }
+
     let sql = 'INSERT INTO subscriptions (deviceToken) VALUES (?)';
 
     return new Promise(function(resolve, reject) {
@@ -140,6 +159,10 @@ class Database {
    * @return {Promise} Promise
    */
   deleteSubscriptionSafari(deviceToken) {
+    if (deviceToken == undefined || '') {
+      throw Error('Invalid Device Token.');
+    }
+
     let sql = 'DELETE FROM subscriptions WHERE deviceToken = ?';
 
     return new Promise(function(resolve, reject) {
@@ -154,12 +177,45 @@ class Database {
   }
 
   /**
+   * Module for updating user notification preferences in MySQL database for APNs
+   * @param {object} data - Object containing Device Token and preferences
+   * @return {Promise} Promise
+   */
+  updatePreferencesSafari(data) {
+    let deviceToken = data.deviceToken;
+    let preferences = data.preferences;
+
+    if ((deviceToken == undefined || '') || (preferences == undefined || '')) {
+      throw Error("Invalid deviceToken or preferences.");
+    }
+
+    let sql = 'UPDATE subscriptions SET preferences = ? WHERE deviceToken = ?';
+
+    return new Promise(function(resolve, reject) {
+      con.query(sql, [preferences, deviceToken], function(err, result) {
+        if (err) {
+          throw reject(err);
+        }
+        if (result.affectedRows == 0) {
+          reject('No subscription exists with deviceToken: ' + deviceToken);
+        }
+        log.debug('Preferences Updated successfully.');
+        resolve(true);
+      });
+    });
+  }
+
+  /**
    * Module for fetching user notification preferences from MySQL database for APNs
    * @param {object} data - Object containing Device Token
    * @return {Promise} Promise
    */
   getPreferencesSafari(data) {
     let deviceToken = data.deviceToken;
+
+    if (deviceToken == undefined || '') {
+      throw Error("Invalid deviceToken.");
+    }
 
     let sql = 'SELECT preferences FROM subscriptions WHERE deviceToken = ?';
 
@@ -169,28 +225,6 @@ class Database {
           throw reject(err);
         }
         resolve(result);
-      });
-    });
-  }
-
-  /**
-   * Module for updating user notification preferences in MySQL database for APNs
-   * @param {object} data - Object containing Device Token and preferences
-   * @return {Promise} Promise
-   */
-  updatePreferencesSafari(data) {
-    let deviceToken = data.deviceToken;
-    let preferences = data.preferences;
-
-    let sql = 'UPDATE subscriptions SET preferences = ? WHERE deviceToken = ?';
-
-    return new Promise(function(resolve, reject) {
-      con.query(sql, [preferences, deviceToken], function(err, result) {
-        if (err) {
-          throw reject(err);
-        }
-        log.debug('Preferences Updated successfully.');
-        resolve(true);
       });
     });
   }
