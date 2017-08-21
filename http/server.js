@@ -193,7 +193,7 @@ class HttpServer {
    */
   saveSubscription(req, res) {
     if (!isValidSaveRequest(req, res)) {
-      return;
+      res.send();
     }
 
     db.insertSubscription(req.body)

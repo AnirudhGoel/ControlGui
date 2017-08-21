@@ -57,3 +57,25 @@ describe('websocket', () => {
     });
   });
 });
+
+// describe('save-subscription', () => {
+//   it('should throw error because save request is invalid', (done) => {
+//     chai.request(http.httpsServer)
+//       .post('/api/save-subscription')
+//       .query({token: token})
+//       .end((err, res) => {
+//         assert.equal(res.status, 400, 'Invalid save request');
+//         done();
+//       });
+//   });
+
+//   it('should get response', (done) => {
+//     chai.request(http.httpsServer)
+//       .get('/api/runs')
+//       .query({token: token})
+//       .end((err, res) => {
+//         assert.equal(res.status, 200, 'Wrong HTTP response code');
+//         done();
+//       });
+//   });
+// });

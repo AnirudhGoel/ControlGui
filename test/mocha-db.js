@@ -1,11 +1,5 @@
-// const assert = require('assert');
-const express = require('express');
-const mysql = require('mysql');
-const app = express();
-const config = require('./../config.json');
 const Database = require('./../http/db.js');
 const chai = require('chai');
-const should = chai.should;
 const assert = chai.assert;
 const expect = chai.expect;
 
@@ -102,7 +96,7 @@ describe('Get Preferences', function() {
   describe('#fail', function() {
     it('should throw Error', function() {
       let data = {
-        endpoint: undefined,
+        endpoint: undefined
       };
 
       assert.throws(() => {
@@ -219,7 +213,7 @@ describe('Get Safari Preferences', function() {
   describe('#fail', function() {
     it('should throw Error', function() {
       let data = {
-        deviceToken: undefined,
+        deviceToken: undefined
       };
 
       assert.throws(() => {

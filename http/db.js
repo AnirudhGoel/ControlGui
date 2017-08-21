@@ -38,7 +38,7 @@ class Database {
 
     if ((endpoint == undefined || '') || (authKey == undefined || '')
       || (p256dhKey == undefined || '')) {
-      throw Error("Invalid subscription object.");
+      throw Error('Invalid subscription object.');
     }
 
     let sql = 'INSERT INTO subscriptions (endpoint, auth_key, p256dh_key) VALUES (?, ?, ?)';
@@ -63,7 +63,7 @@ class Database {
     let sql = 'DELETE FROM subscriptions WHERE endpoint = ?';
 
     if (endpoint == undefined || '') {
-      throw Error("Invalid endpoint.");
+      throw Error('Invalid endpoint.');
     }
 
     return new Promise(function(resolve, reject) {
@@ -87,7 +87,7 @@ class Database {
     let preferences = data.preferences;
 
     if ((endpoint == undefined || '') || (preferences == undefined || '')) {
-      throw Error("Invalid endpoint or preferences.");
+      throw Error('Invalid endpoint or preferences.');
     }
 
     let sql = 'UPDATE subscriptions SET preferences = ? WHERE endpoint = ?';
@@ -115,7 +115,7 @@ class Database {
     let endpoint = data.endpoint;
 
     if (endpoint == undefined || '') {
-      throw Error("Invalid endpoint.");
+      throw Error('Invalid endpoint.');
     }
 
     let sql = 'SELECT preferences FROM subscriptions WHERE endpoint = ?';
@@ -186,7 +186,7 @@ class Database {
     let preferences = data.preferences;
 
     if ((deviceToken == undefined || '') || (preferences == undefined || '')) {
-      throw Error("Invalid deviceToken or preferences.");
+      throw Error('Invalid deviceToken or preferences.');
     }
 
     let sql = 'UPDATE subscriptions SET preferences = ? WHERE deviceToken = ?';
@@ -214,7 +214,7 @@ class Database {
     let deviceToken = data.deviceToken;
 
     if (deviceToken == undefined || '') {
-      throw Error("Invalid deviceToken.");
+      throw Error('Invalid deviceToken.');
     }
 
     let sql = 'SELECT preferences FROM subscriptions WHERE deviceToken = ?';
