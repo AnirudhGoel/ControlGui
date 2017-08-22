@@ -63,18 +63,20 @@ describe('websocket', () => {
 //     chai.request(http.httpsServer)
 //       .post('/api/save-subscription')
 //       .query({token: token})
+//       .send({ key: 'hello'})
 //       .end((err, res) => {
-//         assert.equal(res.status, 400, 'Invalid save request');
-//         done();
-//       });
+//       assert.equal(res, 500);
+//       done();
+//     });
 //   });
 
 //   it('should get response', (done) => {
 //     chai.request(http.httpsServer)
-//       .get('/api/runs')
+//       .get('/api/save-subscription')
 //       .query({token: token})
+//       .send({ endpoint: 'hello'})
 //       .end((err, res) => {
-//         assert.equal(res.status, 200, 'Wrong HTTP response code');
+//         assert.equal(res, 200);
 //         done();
 //       });
 //   });
