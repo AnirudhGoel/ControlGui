@@ -194,6 +194,7 @@ class HttpServer {
   saveSubscription(req, res) {
     if (!isValidSaveRequest(req, res)) {
       res.send();
+      return;
     }
 
     db.insertSubscription(req.body)
@@ -225,7 +226,8 @@ class HttpServer {
         res.send(JSON.stringify({data: {success: true}}));
       })
       .catch(function(err) {
-        res.send(err);
+        // res.send(err);
+        throw new Error(err);
       });
   }
 

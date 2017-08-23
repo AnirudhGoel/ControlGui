@@ -1,5 +1,5 @@
-// const Database = require('./../http/db.js');
-const mysql = require('mysql');
+const Database = require('./../http/db.js');
+// const mysql = require('mysql');
 const chai = require('chai');
 const assert = chai.assert;
 const expect = chai.expect;
@@ -8,22 +8,22 @@ let db = undefined;
 
 describe('Access to db', function() {
   it('should return true if db is running and connected', function(done) {
-    // db = new Database();
-    // done();
+    db = new Database();
+    done();
 
-    const con = mysql.createConnection({
-      host: '127.0.0.1',
-      user: 'root',
-      password: '',
-      database: 'notifications'
-    });
+    // const con = mysql.createConnection({
+    //   host: '127.0.0.1',
+    //   user: 'root',
+    //   password: '',
+    //   database: 'notifications'
+    // });
 
-    con.connect(function(err) {
-      if (err) {
-        throw err;
-      }
-      // log.debug('Connected to the database');
-    });
+    // con.connect(function(err) {
+    //   if (err) {
+    //     throw err;
+    //   }
+    //   // log.debug('Connected to the database');
+    // });
   });
 });
 
