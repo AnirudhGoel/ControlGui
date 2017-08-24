@@ -226,8 +226,8 @@ class HttpServer {
         res.send(JSON.stringify({data: {success: true}}));
       })
       .catch(function(err) {
-        // res.send(err);
-        throw new Error(err);
+        res.send(err);
+        // throw new Error(err);
       });
   }
 

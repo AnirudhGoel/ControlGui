@@ -1,29 +1,52 @@
 const Database = require('./../http/db.js');
-// const mysql = require('mysql');
+const mysql = require('mysql');
 const chai = require('chai');
 const assert = chai.assert;
 const expect = chai.expect;
+const log = require('./../log.js');
 
 let db = undefined;
 
 describe('Access to db', function() {
+  before(function(done) {
+    const con = mysql.createConnection({
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'notifications'
+    });
+
+    con.connect(function(err) {
+      if (err) {
+        throw err;
+      }
+      log.debug('Connected to the database');
+
+      const sql = 'CREATE TABLE IF NOT EXISTS `subscriptions` (' +
+        '`sub_id` int(11) unsigned NOT NULL AUTO_INCREMENT,' +
+        '`endpoint` varchar(300) DEFAULT NULL,' +
+        '`auth_key` varchar(200) DEFAULT NULL,' +
+        '`p256dh_key` varchar(200) DEFAULT NULL,' +
+        '`deviceToken` varchar(100) DEFAULT NULL,' +
+        '`preferences` varchar(20) NOT NULL DEFAULT \'000\',' +
+        'PRIMARY KEY (`sub_id`)' +
+        ') ENGINE=MyISAM DEFAULT CHARSET=utf8;';
+
+      con.query(sql, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        log.debug('Table Created');
+
+        con.end();
+        done();
+      });
+    });
+  });
+
   it('should return true if db is running and connected', function(done) {
     db = new Database();
     done();
-
-    // const con = mysql.createConnection({
-    //   host: '127.0.0.1',
-    //   user: 'root',
-    //   password: '',
-    //   database: 'notifications'
-    // });
-
-    // con.connect(function(err) {
-    //   if (err) {
-    //     throw err;
-    //   }
-    //   // log.debug('Connected to the database');
-    // });
   });
 });
 
