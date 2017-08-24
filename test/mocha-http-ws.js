@@ -60,15 +60,17 @@ describe('websocket', () => {
 });
 
 describe('save-subscription', () => {
-  // it('should throw error because save request does not have endpoint', () => {
-  //   chai.request(http.httpsServer)
-  //     .post('/api/save-subscription')
-  //     .query({token: token})
-  //     .send({ key: 'hello'})
-  //     .end((err, res) => {
-  //       assert.equal(res.body.error.message, 'Subscription must have an endpoint.');
-  //     });
-  // });
+  it('should throw error because save request does not have endpoint', () => {
+    chai.request(http.httpsServer)
+      .post('/api/save-subscription')
+      .query({token: token})
+      .send({
+        key: 'hello'
+      })
+      .end((err, res) => {
+        assert.equal(res.body.error.message, 'Subscription must have an endpoint.');
+      });
+  });
 
   it('should save subscription', () => {
     chai.request(http.httpsServer)
@@ -88,20 +90,18 @@ describe('save-subscription', () => {
 });
 
 describe('update-preferences', () => {
-  // it('should throw error because save request is invalid', (done) => {
-  //   expect(() => {
-  //     chai.request(http.httpsServer)
-  //       .post('/api/update-preferences')
-  //       .query({token: token})
-  //       .send({
-  //         endpoint: undefined,
-  //         preferences: undefined
-  //       })
-  //       .end((err, res) => {
-  //       });
-  //   }).to.throw(new Error('Hello'));
-  //   done();
-  // });
+  it('should throw error because save request is invalid', (done) => {
+    chai.request(http.httpsServer)
+    .post('/api/update-preferences')
+    .query({token: token})
+    .send({
+      endpoint: undefined,
+      preferences: undefined
+    })
+    .end((err, res) => {
+      assert.equal(err, true);
+    });
+  });
 
   it('should update preferences', () => {
     chai.request(http.httpsServer)
