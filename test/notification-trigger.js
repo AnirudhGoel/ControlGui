@@ -176,6 +176,10 @@ function sendNotif() {
     });
 }
 
+/**
+ * Fetches APN subscriptions from db then verifies them and sends notifications.
+ * @return {promise}
+ */
 function sendAPNNotif() {
   const type = argv.type;
   let options = {
@@ -224,7 +228,6 @@ function sendAPNNotif() {
     })
     .then(() => {
       apnProvider.shutdown();
-      console.log("here");
       con.end();
     })
     .catch(function(err) {
