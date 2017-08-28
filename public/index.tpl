@@ -39,7 +39,7 @@ textarea {
 <script src="padlock.widget.js"></script>
 <script src="notification-ws.widget.js"></script>
 <script src="pushnotif.widget.js"></script>
-<script src="apn.widget.js"></script>
+<script src="notification-apn.widget.js"></script>
 <script>
 $(function() {
   /// instance of websocket widget
