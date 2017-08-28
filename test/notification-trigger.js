@@ -185,8 +185,8 @@ function sendAPNNotif() {
   let options = {
     token: {
       key: 'APNsAuthKey_M6F56D7FRJ.p8',
-      keyId: 'M6F56D7FRJ',
-      teamId: 'V5WJKFTQN5'
+      keyId: config.pushNotifications.APNKeyId,
+      teamId: config.pushNotifications.APNTeamId
     },
     production: true
   };
@@ -196,11 +196,8 @@ function sendAPNNotif() {
   note.expiry = Math.floor(Date.now() / 1000) + 3600;
   note.badge = 3;
   note.sound = 'ping.aiff';
-  // note.alert = {
-  //   'You have a new message'
-  // };
   note.payload = {
-    from: 'John Appleseed'
+    from: 'AliceO2 Control'
   };
   note.urlArgs = [];
   note.body = argv.message;
