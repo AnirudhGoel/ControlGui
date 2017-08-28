@@ -4,8 +4,8 @@
 
 // Receiving push and showing notification
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.json()}"`);
+  // console.log('[Service Worker] Push Received.');
+  // console.log(`[Service Worker] Push had this data: "${event.data.json()}"`);
 
   const title = `${event.data.json().title}`;
   const options = {
@@ -19,7 +19,7 @@ self.addEventListener('push', function(event) {
 
 // Closing the notification on click
 self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Notification click Received.');
+  // console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
 });
