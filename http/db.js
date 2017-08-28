@@ -10,7 +10,10 @@ const con = mysql.createConnection({
 });
 
 /**
- * Database Module containing all Database related functions
+ * Database Module containing functions for-
+ * Insertion and Deletion of Subscriptions for both, APN and other browsers
+ * Updating User Notification Preferences
+ * Fetching User Notification Preferences
  * @author Anirudh Goel <anirudh.goel@cern.ch>
  */
 class Database {
