@@ -38,7 +38,7 @@ textarea {
 <script src="ws.widget.js"></script>
 <script src="padlock.widget.js"></script>
 <script src="notification-ws.widget.js"></script>
-<script src="pushnotif.widget.js"></script>
+<script src="notification-settings.widget.js"></script>
 <script src="notification-apn.widget.js"></script>
 <script>
 $(function() {
