@@ -25,7 +25,7 @@ const vapidKeys = {
 };
 
 webpush.setVapidDetails(
-  'mailto: anirudh.goel@cern.ch',
+  config.pushNotifications.email,
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );

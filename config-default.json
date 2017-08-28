@@ -46,6 +46,7 @@
   "pushNotifications": {    
     "publicKey": "<application server public key>",
     "privateKey": "<application server private key>",
+    "email": "<Email address>",
     "host": "localhost",
     "user": "root",
     "password": "",
