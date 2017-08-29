@@ -45,7 +45,7 @@ const vapidKeys = {
 };
 
 webpush.setVapidDetails(
-  'mailto: alice-o2-flp-prototype@cern.ch',
+  'mailto: ' + config.pushNotifications.vapid.email,
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );
