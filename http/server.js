@@ -25,7 +25,7 @@ const vapidKeys = {
 };
 
 webpush.setVapidDetails(
-  config.pushNotifications.email,
+  "mailto: " + config.pushNotifications.email,
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );
