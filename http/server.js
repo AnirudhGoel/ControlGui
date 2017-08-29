@@ -20,12 +20,12 @@ const db = new Database();
 app.use(express.static(path.join(__dirname, '')));
 
 const vapidKeys = {
-  publicKey: config.pushNotifications.publicKey,
-  privateKey: config.pushNotifications.privateKey
+  publicKey: config.pushNotifications.vapid.publicKey,
+  privateKey: config.pushNotifications.vapid.privateKey
 };
 
 webpush.setVapidDetails(
-  'mailto: ' + config.pushNotifications.email,
+  'mailto: ' + config.pushNotifications.vapid.email,
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );

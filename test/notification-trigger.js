@@ -40,8 +40,8 @@ You can generate the VAPID keys by 2 methods
 (Use Chrome or Mozilla, not Safari)
 */
 const vapidKeys = {
-  publicKey: config.pushNotifications.publicKey,
-  privateKey: config.pushNotifications.privateKey
+  publicKey: config.pushNotifications.vapid.publicKey,
+  privateKey: config.pushNotifications.vapid.privateKey
 };
 
 webpush.setVapidDetails(
@@ -185,8 +185,8 @@ function sendAPNNotif() {
   let options = {
     token: {
       key: 'APNsAuthKey_M6F56D7FRJ.p8',
-      keyId: config.pushNotifications.APNKeyId,
-      teamId: config.pushNotifications.APNTeamId
+      keyId: config.pushNotifications.APN.KeyId,
+      teamId: config.pushNotifications.APN.TeamId
     },
     production: true
   };

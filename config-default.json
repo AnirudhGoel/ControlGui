@@ -43,15 +43,19 @@
   "websocket": {
     "hostname": "127.0.0.1"
   },
-  "pushNotifications": {    
-    "publicKey": "<application server public key>",
-    "privateKey": "<application server private key>",
-    "email": "alice-o2-flp-prototype@cern.ch",
+  "pushNotifications": {
+    "vapid": {
+      "publicKey": "<application server public key>",
+      "privateKey": "<application server private key>",
+      "email": "alice-o2-flp-prototype@cern.ch"
+    },
+    "APN": {
+      "KeyId": "<APN Key ID>",
+      "TeamId": "<APN Team ID>"
+    },
     "host": "localhost",
     "user": "root",
     "password": "",
-    "database": "notifications",
-    "APNKeyId": "<APN Key ID>",
-    "APNTeamId": "<APN Team ID>"
+    "database": "notifications"
   }
 }
