@@ -104,7 +104,7 @@ Replace *&lt;tags&gt;* with corresponding data:
     * email - Email Id for VAPID Keys
   * APN (for steps to obtain all these, go [here](docs/APNS.md))
     * keyId - ID of the APN Authentication Token (obtained while creating the token)
-    * teamId - Your Apple Team ID (obtained from your Apple Developer Account)
+    * teamId - Your Apple Team ID (obtained from your [Apple Developer Account](https://developer.apple.com/account))
     * pushId - 'Identifier' used while registering with Apple
     * authenticationToken - APN Authentication Token `.p8` File
   * host - MySQL Host
