@@ -52,7 +52,8 @@
     "APN": {
       "keyId": "<APN Key ID>",
       "teamId": "<APN Team ID>",
-      "pushId": "<APN Push ID>"
+      "pushId": "<APN Push ID>",
+      "authenticationToken": "<Authentication Token File Name>"
     },
     "host": "localhost",
     "user": "root",
