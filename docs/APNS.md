@@ -57,7 +57,7 @@ The Key ID obtained after generating the token should be added in `keyId` in con
     **Description of contents of `pushpackage`**
 
     - **createPushPackage.php**
-    Download the file from [this link](createPushPackage.zip) and save it inside `pushpackage`
+    Download the file from [this link](createPushPackage.php) and save it inside `pushpackage`
     - **web-push-ID.p12**
     `.p12` certificate obtained in the previous step
     - **icon.iconset**
