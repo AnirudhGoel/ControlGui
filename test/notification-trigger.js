@@ -185,8 +185,8 @@ function sendAPNNotif() {
   let options = {
     token: {
       key: 'APNsAuthKey_M6F56D7FRJ.p8',
-      keyId: config.pushNotifications.APN.KeyId,
-      teamId: config.pushNotifications.APN.TeamId
+      keyId: config.pushNotifications.APN.keyId,
+      teamId: config.pushNotifications.APN.teamId
     },
     production: true
   };
@@ -202,7 +202,7 @@ function sendAPNNotif() {
   note.urlArgs = [];
   note.body = argv.message;
   note.title = argv.title;
-  note.topic = 'web.ch.cern.anirudh';
+  note.topic = config.pushNotifications.APN.pushId;
 
   return getAPNSubscriptions()
     .then(function(subscriptions) {
