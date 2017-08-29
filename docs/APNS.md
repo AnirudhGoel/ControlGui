@@ -66,11 +66,11 @@ The Key ID obtained after generating the token should be added in `keyId` in con
         ```
         {
             "websiteName": "ALICE ControlGUI",
-            "websitePushID": "web.ch.cern.anirudh",
-            "allowedDomains": ["https://pcald31.cern.ch"],
-            "urlFormatString": "https://pcald31.cern.ch",
-            "authenticationToken": "19f8d7a6e9fb8a7f6d9330dabf",
-            "webServiceURL": "https://pcald31.cern.ch"
+            "websitePushID": "<Website Push ID>",
+            "allowedDomains": ["<Domain>"],
+            "urlFormatString": "<Domain>",
+            "authenticationToken": "<16 character string>",
+            "webServiceURL": "<Domain>"
         }
         ```
     
